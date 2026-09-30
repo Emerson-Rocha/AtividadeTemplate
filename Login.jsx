@@ -109,7 +109,7 @@ const Login = ({ navigation }) => {
                     mode="contained"
                     icon="login"
                     style={styles.loginButton}
-                    onPress={entrar}
+                    onPress={()=>navigation.navigate("Perfil")}
                 >
                     ENTRAR
                 </Button>

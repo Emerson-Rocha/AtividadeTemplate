@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Avatar, Text, IconButton, } from 'react-native-paper';
+import {useState} from 'react';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { Avatar, Text, IconButton, Portal, Dialog, Button } from 'react-native-paper';
 import { Icon } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 const CabecalhoMenu = () => {
@@ -12,7 +12,18 @@ const CabecalhoMenu = () => {
     email: 'emerson@email.com',
   };
 
- const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [dialogSair, setDialogSair] = useState(false);
+
+  const confirmarSaida = () => {
+    setDialogSair(false);
+    //Coloque aqui sua lógica de logout
+    console.log("Usuário saiu");
+    // Exemplo:
+    navigation.navigate("Login");
+  };
+
+
 
   return (
 
@@ -61,7 +72,7 @@ const CabecalhoMenu = () => {
           icon="account"
           iconColor="white"
           size={24}
-          onPress={() => navigation.navigate('Perfil')}
+          onPress={{}}
         />
       </View>
 
@@ -77,7 +88,7 @@ const CabecalhoMenu = () => {
           icon="bell"
           iconColor="white"
           size={24}
-          onPress={() => navigation.navigate('Perfil')}
+          onPress={{}}
         />
       </View>
 
@@ -96,7 +107,8 @@ const CabecalhoMenu = () => {
         />
       </View>
       {/* Área do configuração */}
-      <View style={styles.perfil}>
+      <View style={styles.perfil}  >
+
         <Text
           variant="bodyMedium"
           style={styles.perfilTexto}>
@@ -121,10 +133,36 @@ const CabecalhoMenu = () => {
           icon="logout"
           iconColor="white"
           size={24}
-          onPress={() => navigation.navigate('Perfil')}
+          onPress={() => setDialogSair(true)}
         />
+
       </View>
 
+
+      {/* Dialog de confirmação */}
+      <Portal>
+        <Dialog
+          visible={dialogSair}
+          onDismiss={() => setDialogSair(false)}>
+          <Dialog.Title>Confirmar saída</Dialog.Title>
+          <Dialog.Content>
+            <Text>
+              Deseja realmente sair do aplicativo?
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button
+              onPress={() => setDialogSair(false)}>
+              Cancelar
+            </Button>
+
+            <Button
+              onPress={confirmarSaida}   >
+              Sair
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   )
 };
